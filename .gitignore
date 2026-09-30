@@ -1,0 +1,11 @@
+# Never commit service account keys - anyone with this file can create
+# resources in the project. See part3/README.md.
+service-credentials.json
+*-credentials.json
+*.json.key
+
+# Local python environment
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
