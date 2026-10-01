@@ -25,7 +25,7 @@ VM2_STARTUP_FILE = os.path.join(HERE, 'vm2-startup-script.sh')
 INFO_FILE = os.path.join(HERE, 'vm2-info.txt')
 
 ZONE = os.getenv('VM2_ZONE', 'us-west1-b')
-MACHINE_TYPE = os.getenv('VM2_MACHINE_TYPE', 'f1-micro')
+MACHINE_TYPE = os.getenv('VM2_MACHINE_TYPE', 'e2-micro')
 VM2_NAME = os.getenv('VM2_NAME', 'flask-vm2')
 IMAGE_PROJECT = 'ubuntu-os-cloud'
 IMAGE_FAMILY = 'ubuntu-2204-lts'

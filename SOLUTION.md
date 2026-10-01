@@ -15,9 +15,24 @@ python3 -m venv .venv
                       google-auth-httplib2 google-auth-oauthlib
 ```
 
-Everything runs in `us-west1-b` on `f1-micro` instances by default. Each program
+Everything runs in `us-west1-b` on `e2-micro` instances by default. Each program
 takes `--zone`, `--machine-type` and `--project` if you want to override that
 (an `e2-medium` is much less painful while developing).
+
+### Why `e2-micro` and not `f1-micro`
+
+The assignment suggests `f1-micro`. It is a deprecated legacy machine type, and
+in `us-west1-b` it currently fails outright:
+
+```
+RuntimeError: {'errors': [{'code': 'ZONE_RESOURCE_POOL_EXHAUSTED',
+  'message': "The zone 'projects/.../zones/us-west1-b' does not have enough
+  resources available to fulfill the request. ..."
+```
+
+`part1/README.md` allows "`f1-micro` or `e2` family", and `e2-micro` is
+likewise free-tier eligible in `us-west1`, so that is the default. Pass
+`--machine-type f1-micro` to try the legacy type anyway.
 
 ---
 

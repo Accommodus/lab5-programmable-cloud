@@ -30,7 +30,7 @@ import googleapiclient.errors
 # ---------------------------------------------------------------- configuration
 
 ZONE = 'us-west1-b'
-MACHINE_TYPE = 'f1-micro'
+MACHINE_TYPE = 'e2-micro'  # see part1.py: f1-micro is exhausted in us-west1-b
 NETWORK = 'global/networks/default'
 NETWORK_TAG = 'allow-5000'
 FLASK_PORT = '5000'

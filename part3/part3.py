@@ -44,7 +44,7 @@ ZONE = 'us-west1-b'
 # f1-micro, so it gets a slightly bigger (still free-tier) machine. VM-2 is
 # the f1-micro the assignment asks for.
 VM1_MACHINE_TYPE = 'e2-micro'
-VM2_MACHINE_TYPE = 'f1-micro'
+VM2_MACHINE_TYPE = 'e2-micro'  # f1-micro is exhausted in us-west1-b
 IMAGE_PROJECT = 'ubuntu-os-cloud'
 IMAGE_FAMILY = 'ubuntu-2204-lts'
 NETWORK = 'global/networks/default'

@@ -26,7 +26,10 @@ import googleapiclient.errors
 # ---------------------------------------------------------------- configuration
 
 ZONE = 'us-west1-b'
-MACHINE_TYPE = 'f1-micro'
+# f1-micro is a legacy machine type and is frequently capacity-exhausted in
+# us-west1-b (ZONE_RESOURCE_POOL_EXHAUSTED). part1/README.md allows the e2
+# family, and e2-micro is likewise free-tier eligible in us-west1.
+MACHINE_TYPE = 'e2-micro'
 IMAGE_PROJECT = 'ubuntu-os-cloud'
 IMAGE_FAMILY = 'ubuntu-2204-lts'
 NETWORK = 'global/networks/default'
