@@ -273,3 +273,52 @@ gcloud compute images delete base-image-flask-vm
 gcloud compute snapshots delete base-snapshot-flask-vm
 gcloud compute firewall-rules delete allow-5000
 ```
+
+---
+
+## Verified run
+
+All three parts were run end to end against project `lab2-url-lister` in
+`us-west1-b` on `e2-micro` instances, and each resulting blog was checked with
+`curl`:
+
+| Part | Result |
+| --- | --- |
+| 1 | `flask-vm` created, tagged `allow-5000` via `setTags`, external IP `136.117.79.167` - blog returned **HTTP 200** |
+| 2 | snapshot `base-snapshot-flask-vm` (63.4s), image `base-image-flask-vm` (122.7s), 3 clones at a mean of 13.1s to `RUNNING` - all three returned **HTTP 200**. See [part2/TIMING.md](part2/TIMING.md). |
+| 3 | `part3.py` created VM-1 `launcher-vm`; VM-1 independently created VM-2 `flask-vm2` at `136.118.140.248` - blog returned **HTTP 200** |
+
+The Part 3 chain is worth checking rather than taking on faith, because the
+interesting claim is about *who* created VM-2. Afterwards:
+
+```console
+$ gcloud compute instances describe flask-vm2 --zone us-west1-b \
+      --format="value(serviceAccounts)"
+          # empty - VM-2 holds no cloud credentials at all
+
+$ gcloud compute instances describe flask-vm2 --zone us-west1-b \
+      --format="value(tags.items)"
+allow-5000
+```
+
+VM-2 exists, serves the blog, and is tagged so the firewall rule reaches it -
+but it has no service account and no key file. It was created by
+`vm1-launch-vm2.py` running on VM-1, authenticating as
+`lab5-launcher@lab2-url-lister.iam.gserviceaccount.com`.
+
+### Known gap in this run
+
+The service account was granted `roles/iam.serviceAccountUser` and
+`roles/compute.instanceAdmin.v1`, but not `roles/compute.securityAdmin`, so it
+could not create firewall rules. `allow-5000` was therefore created out of band
+with `gcloud`, which means the *check-and-skip* branch of
+`ensure_firewall_rule()` ran in all three parts but the *create* branch did
+not. To exercise it:
+
+```bash
+gcloud compute firewall-rules delete allow-5000
+python3 part1/part1.py --recreate      # now creates the rule itself
+```
+
+That needs either `roles/compute.securityAdmin` on the service account, or
+your own user credentials via `gcloud auth application-default login`.
