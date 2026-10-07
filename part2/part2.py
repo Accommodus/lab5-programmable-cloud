@@ -373,16 +373,23 @@ def main():
     disk = boot_disk_of(compute, project, args.zone, args.instance)
     print(f'Instance {args.instance} boots from disk {disk}')
 
-    # Step 2 - snapshot it.
+    # Step 2 - snapshot it. A reused snapshot or image is not timed: the
+    # report should only show preparation work that this run actually did.
+    reused_snapshot = get_snapshot(compute, project, snapshot_name) is not None
     t0 = time.perf_counter()
     snapshot = create_snapshot(compute, project, args.zone, disk, snapshot_name)
-    prep.append(('Create snapshot from the Part 1 boot disk', time.perf_counter() - t0))
+    if not reused_snapshot:
+        prep.append(('Create snapshot from the Part 1 boot disk',
+                     time.perf_counter() - t0))
 
     # Step 3 - build a custom image from the snapshot.
     if args.source == 'image':
+        reused_image = get_image(compute, project, image_name) is not None
         t0 = time.perf_counter()
         image = create_image_from_snapshot(compute, project, snapshot, image_name)
-        prep.append(('Create custom image from the snapshot', time.perf_counter() - t0))
+        if not reused_image:
+            prep.append(('Create custom image from the snapshot',
+                         time.perf_counter() - t0))
         source = {'sourceImage': image['selfLink']}
         source_kind, source_name = 'custom image', image_name
     else:

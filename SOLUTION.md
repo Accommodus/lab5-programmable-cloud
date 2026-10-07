@@ -220,7 +220,7 @@ VM-1's startup script reads each one back off the metadata server, a link-local
 "fake" web server at `169.254.169.254` reachable as the hostname `metadata`:
 
 ```bash
-curl http://metadata/computeMetadata/v1/instance/attributes/vm2-script \
+curl http://metadata/computeMetadata/v1/instance/attributes/vm2-startup-script \
      -H "Metadata-Flavor: Google"
 ```
 
