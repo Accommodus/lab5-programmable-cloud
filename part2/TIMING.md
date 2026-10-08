@@ -14,17 +14,17 @@ Times measured by `part2.py` using `time.perf_counter()` around the Compute Engi
 
 | Step | Time (s) |
 | --- | --- |
-| Create snapshot from the Part 1 boot disk | 63.41 |
-| Create custom image from the snapshot | 122.68 |
+| Create snapshot from the Part 1 boot disk | 58.00 |
+| Create custom image from the snapshot | 94.50 |
 
 ## Instance creation times
 
 | Instance | insert() returned (s) | create operation DONE (s) | instance RUNNING (s) |
 | --- | --- | --- | --- |
-| `flask-vm-clone-1` | 2.25 | 15.56 | 15.78 |
-| `flask-vm-clone-2` | 2.35 | 10.75 | 11.06 |
-| `flask-vm-clone-3` | 1.99 | 12.33 | 12.60 |
-| **mean** | **2.20** | **12.88** | **13.14** |
+| `flask-vm-clone-1` | 0.92 | 12.15 | 12.36 |
+| `flask-vm-clone-2` | 1.19 | 9.87 | 10.09 |
+| `flask-vm-clone-3` | 0.96 | 8.44 | 8.63 |
+| **mean** | **1.02** | **10.15** | **10.36** |
 
 ## Notes
 

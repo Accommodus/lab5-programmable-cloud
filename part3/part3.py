@@ -185,9 +185,11 @@ def main():
     parser.add_argument('--credentials', default=CREDENTIALS_FILE,
                         help='service account key file '
                              '(default: service-credentials.json beside this script)')
-    parser.add_argument('--wait', type=int, default=420,
+    # VM-1 has to apt-get and pip install on an e2-micro before it can create
+    # VM-2, which took about 11 minutes on 2026-10-08.
+    parser.add_argument('--wait', type=int, default=900,
                         help='seconds to wait for VM-2 to appear, 0 to skip '
-                             '(default: 420)')
+                             '(default: 900)')
     parser.add_argument('--recreate', action='store_true',
                         help='delete VM-1 first if it already exists')
     parser.add_argument('--list', action='store_true',

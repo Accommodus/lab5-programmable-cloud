@@ -195,7 +195,7 @@ service account to an instance you are creating.
 ```bash
 .venv/bin/python part3/part3.py               # creates launcher-vm, waits for flask-vm2
 .venv/bin/python part3/part3.py --recreate
-.venv/bin/python part3/part3.py --wait 0      # don't wait around for VM-2
+.venv/bin/python part3/part3.py --wait 0      # don't wait around for VM-2 (default waits 900s)
 ```
 
 `part3.py` builds its Compute Engine client from
@@ -278,15 +278,15 @@ gcloud compute firewall-rules delete allow-5000
 
 ## Verified run
 
-All three parts were run end to end against project `lab2-url-lister` in
+All three parts were run end to end (most recently on 2026-10-08) against project `lab2-url-lister` in
 `us-west1-b` on `e2-micro` instances, and each resulting blog was checked with
 `curl`:
 
 | Part | Result |
 | --- | --- |
-| 1 | `flask-vm` created, tagged `allow-5000` via `setTags`, external IP `136.117.79.167` - blog returned **HTTP 200** |
-| 2 | snapshot `base-snapshot-flask-vm` (63.4s), image `base-image-flask-vm` (122.7s), 3 clones at a mean of 13.1s to `RUNNING` - all three returned **HTTP 200**. See [part2/TIMING.md](part2/TIMING.md). |
-| 3 | `part3.py` created VM-1 `launcher-vm`; VM-1 independently created VM-2 `flask-vm2` at `136.118.140.248` - blog returned **HTTP 200** |
+| 1 | `flask-vm` created, tagged `allow-5000` via `setTags`, external IP `34.168.199.196` - blog returned **HTTP 200** |
+| 2 | snapshot `base-snapshot-flask-vm` (58.0s), image `base-image-flask-vm` (94.5s), 3 clones at a mean of 10.4s to `RUNNING` - all three returned **HTTP 200**. See [part2/TIMING.md](part2/TIMING.md). |
+| 3 | `part3.py` created VM-1 `launcher-vm`; VM-1 independently created VM-2 `flask-vm2` at `136.67.250.125` - blog returned **HTTP 200** |
 
 The Part 3 chain is worth checking rather than taking on faith, because the
 interesting claim is about *who* created VM-2. Afterwards:
