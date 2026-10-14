@@ -177,7 +177,7 @@ gcloud iam service-accounts create $SA --display-name "Lab 5 VM launcher"
 
 gcloud projects add-iam-policy-binding $PROJECT \
   --member "serviceAccount:$SA@$PROJECT.iam.gserviceaccount.com" \
-  --role roles/compute.admin
+  --role roles/compute.instanceAdmin.v1
 gcloud projects add-iam-policy-binding $PROJECT \
   --member "serviceAccount:$SA@$PROJECT.iam.gserviceaccount.com" \
   --role roles/iam.serviceAccountUser
@@ -186,9 +186,14 @@ gcloud iam service-accounts keys create part3/service-credentials.json \
   --iam-account "$SA@$PROJECT.iam.gserviceaccount.com"
 ```
 
-`roles/compute.admin` lets it create VMs and firewall rules.
+`roles/compute.instanceAdmin.v1` lets it create and manage VM instances.
 `roles/iam.serviceAccountUser` is the "act as" permission, needed to attach a
 service account to an instance you are creating.
+
+These are the two roles the account actually holds. Notably absent is
+`roles/compute.securityAdmin`, so it cannot create firewall rules - see
+"Known gap in this run" below. `roles/compute.admin` would cover both, but it
+is broader than this program needs.
 
 ### Running it
 
